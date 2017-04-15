@@ -4,9 +4,9 @@ import urllib
 import re
 import json
 
-def getHtml():
+def getHtml(url, path):
 
-    req = urllib2.Request("http://www.ximalaya.com/2452186/album/3230275")
+    req = urllib2.Request(url)
     req.add_header("User-Agent", "Mozilla/5.0")
     source = urllib2.urlopen(req)
     html =  source.read()
@@ -28,14 +28,9 @@ def getHtml():
         jsonData = json.loads(html)
         soundPath = jsonData["play_path"]
         soundTitle = jsonData["title"]
-        soundPublishDate = jsonData["formatted_created_at"]
         print soundPath
         print soundTitle
-        print soundPublishDate
 
         testfile = urllib.URLopener()
 
-        testfile.retrieve(soundPath, soundTitle + str(".m4a"))
-
-
-getHtml()
+        result = testfile.retrieve(soundPath, path + "\\" + soundTitle + str(".m4a"))
